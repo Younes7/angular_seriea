@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  </head>
+  <body ng-app="football">
+    <div class="alert alert-info container" ng-controller="monTableauCtrl">
+      <h3>Serie A 2015/2016</h3>
+        <table class="table table-striped table-hover">
+          <tr>
+            <th>Nom</th>
+            <th>Points</th>
+            <th>Victoire</th>
+            <th>Match Nul</th>
+            <th>Défaite</th>
+          </tr>
+      <tr ng-repeat="equipe in listEquipes">
+          <td><strong>{{equipe.team | uppercase}}</strong></td>
+          <td>{{equipe.overall.points}}</td>
+          <td>{{equipe.overall.wins}}</td>
+          <td>{{equipe.overall.draws}}</td>
+          <td>{{equipe.overall.losts}}</td>
+      </tr>
+    </table>
+    </div>
+    <hr/>
+<h1>deuxieme tableau</h1>
+<div class="alert alert-warning container" ng-controller="monTabCtrl">
+<h3>Serie A 2014/2015</h3>
+  <table class="table table-striped table-hover">
+    <tr>
+      <th>Nom</th>
+      <th>Points</th>
+      <th>Victoire</th>
+      <th>Match Nul</th>
+      <th>Défaite</th>
+    </tr>
+    <tr ng-repeat="team in teams">
+      <td>{{team.team}}</td>
+      <td>{{team.overall.points}}</td>
+      <td>{{team.overall.wins}}</td>
+      <td>{{team.overall.draws}}</td>
+      <td>{{team.overall.losts}}</td>
+    </tr>
+  </table>
+</div>
+  <hr/>
+
+    <script src="angular.min.js"></script>
+    <script>
+      var football= angular.module('football',[]);
+          football.controller('monTableauCtrl', ['$scope', '$http', function ($scope, $http) {
+          $http.get('https://raw.githubusercontent.com/jokecamp/FootballData/master/italy/seria-a/15-16.json').then(function (response) {
+          $scope.listEquipes = response.data.data.standings
+
+          });
+          }]);
+
+          football.controller('monTabCtrl', ['$scope', '$http', function ($scope, $http) {
+          $http.get('https://raw.githubusercontent.com/jokecamp/FootballData/master/italy/seria-a/14-15.json').then(function (response) {
+          $scope.teams = response.data.data.standings
+          console.log(response.data.data.standings);
+          });
+          }]);
+
+
+
+
+// https://raw.githubusercontent.com/jokecamp/FootballData/master/World%20Cups/all-world-cup-players.json
+//     </script>
+  </body>
+</html>
